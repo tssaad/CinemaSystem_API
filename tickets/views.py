@@ -11,6 +11,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics, mixins, viewsets
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
 from django.http import Http404
 
 # 1) no model no REST
@@ -155,16 +159,23 @@ class Mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
 class GenericsList(generics.ListCreateAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
+    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [BasicAuthentication]
+    #permission_classes = [IsAuthenticated]
 
 # 6.2 others
 class Generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
+    #authentication_classes = [BasicAuthentication]
+    #permission_classes = [IsAuthenticated]
+
 
 # 7 viewsets
 class ViewsetsGuest(viewsets.ModelViewSet):
     queryset = Guest.objects.all()
     serializer_class = GuestSerializer
+    authentication_classes = [TokenAuthentication]
 
 class ViewsetsMovie(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
